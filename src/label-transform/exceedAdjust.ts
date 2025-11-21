@@ -92,7 +92,12 @@ export const ExceedAdjust: LLC<ExceedAdjustOptions> = (options = {}) => {
 
     labels.forEach((l) => {
       show(l);
-      const { max, min } = union(l.getRenderBounds(), l.getBounds());
+      const renderBounds = l.getRenderBounds();
+      const bounds = l.getBounds();
+      if (!renderBounds || !bounds) {
+        return;
+      }
+      const { max, min } = union(renderBounds, bounds);
       const [xMax, yMax] = max,
         [xMin, yMin] = min;
       const changeValue = adjustPosition(
